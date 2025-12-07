@@ -1,9 +1,16 @@
-import { Layout } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Button, Layout } from "antd";
+import { Content, Header } from "antd/es/layout/layout";
 import { Outlet } from "react-router";
 import Sidebar from "./Sidebar";
+import { useAppDispatch } from "../../hooks/hooks";
+import { logOut } from "../../redux/features/auth/authSlice";
 
 const MainLayout = () => {
+  const dispatch = useAppDispatch();
+  const handleLogOut = () => {
+    dispatch(logOut());
+  };
+
   return (
     <>
       <Layout
@@ -13,7 +20,9 @@ const MainLayout = () => {
       >
         <Sidebar />
         <Layout>
-          <Header style={{ padding: 0 }} />
+          <Header style={{ padding: 0 }} onClick={handleLogOut}>
+            <Button> Logout</Button>
+          </Header>
           <Content style={{ margin: "24px 16px 0" }}>
             <div
               style={{
@@ -24,9 +33,6 @@ const MainLayout = () => {
               <Outlet />
             </div>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
-          </Footer>
         </Layout>
       </Layout>
     </>

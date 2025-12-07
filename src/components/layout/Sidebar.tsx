@@ -6,9 +6,12 @@ import roles from "../../constant/role";
 import studentDashboardPath from "../../routes/student.route";
 import facultyDashboardPath from "../../routes/faculty.route";
 import type { TUserItem } from "../../types";
+import { useAppSelector } from "../../hooks/hooks";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 const Sidebar = () => {
-  const role = "admin";
+  const user = useAppSelector(selectCurrentUser);
+  const role = user?.role;
   let menuItems: TUserItem[] = [];
 
   switch (role) {
@@ -29,12 +32,9 @@ const Sidebar = () => {
     <Sider
       breakpoint="lg"
       collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
+      // onBreakpoint={(broken) => {
+      //   console.log(broken);
+      // }}
     >
       <div
         className="demo-logo-vertical"
@@ -54,7 +54,7 @@ const Sidebar = () => {
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["4"]}
-        items={sidebarMenuGenerator(menuItems, role)}
+        items={sidebarMenuGenerator(menuItems, role!)}
       />
     </Sider>
   );
